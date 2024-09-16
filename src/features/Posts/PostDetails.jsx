@@ -146,7 +146,7 @@ const PostDetails = () => {
             {postError && (
               <h3 className="post-details-error-message">{postError}</h3>
             )}
-            {post && postLoading === "idle" && !postError && (
+            {user && post && postLoading === "idle" && !postError && (
               <>
                 <div className="post-details-body-head">
                   <div className="post-details-avatar-container">
