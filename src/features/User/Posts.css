@@ -1,0 +1,37 @@
+.user-posts-main {
+  margin: 0 2rem;
+}
+
+.loading-text {
+  display: inline-block;
+  position: relative;
+  color: #000;
+  overflow: hidden;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.loading-text::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}

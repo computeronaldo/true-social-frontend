@@ -1,0 +1,11 @@
+.header-container {
+  font-family: Nunito, monospace;
+  display: flex;
+  justify-content: flex-start;
+  padding: 1rem 4rem;
+  border-bottom: 2px solid #363030;
+}
+
+.header-head-highlighted {
+  color: #FF3B30;
+}

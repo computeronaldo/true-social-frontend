@@ -1,0 +1,70 @@
+.third-person-profile-main {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1.5fr;
+  font-family: "Nunito", monospace;
+  min-height: 35rem;
+  padding: 0 3rem;
+}
+
+.third-person-profile-container {
+  border-right: 2px solid black;
+  padding: 2rem 1rem;
+}
+
+.third-person-avatar-container {
+  background-color: #7f7a7a;
+  border-radius: 50%;
+}
+
+.third-person-username {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.third-person-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-error-message {
+  padding: 2rem 1rem;
+}
+
+.third-person-user-info-username {
+  color: #7f7a7a;
+}
+
+.third-person-posts-container {
+  margin: 2rem 0;
+}
+
+.third-person-following-btn {
+  background-color: transparent;
+  padding: 0.35rem 0.5rem;
+}
+.third-person-follow-btn {
+  border: none;
+  color: white;
+  background-color: #ff3b30;
+  padding: 0.35rem 0.5rem;
+}
+
+.third-person-profile-stats {
+  background-color: white;
+  padding: 0.5rem 1rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.third-perons-profile-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-profile-posts-message {
+  margin: 2rem 0;
+}

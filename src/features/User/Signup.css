@@ -1,0 +1,97 @@
+.signup-main {
+  font-family: Nunito, monospace;
+  margin: 3rem;
+  text-align: center;
+}
+.signup-main > h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.signup-form-container {
+  background-color: white;
+  padding: 2rem 1rem;
+  width: 40%;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1.5rem;
+  gap: 1rem;
+}
+
+.signup-form-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.signup-form-item > input {
+  width: 100%;
+  height: 2rem;
+}
+.signup-form-item > input:user-valid {
+  outline-color: green;
+}
+.signup-form-item > input:user-invalid {
+  outline-color: red;
+}
+
+.signup-form-item > label {
+  margin-bottom: 0.2rem;
+}
+
+.signup-form-item-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.signup-form-item-checkbox > input {
+  accent-color: black;
+}
+
+.create-account-btn:enabled {
+  cursor: pointer;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.create-account-btn {
+  background-color: #FF3B30;
+  color: white;
+  border: 0;
+  padding: 0.5rem;
+  margin: 0.5rem 0 1rem 0;
+  opacity: 1;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.login-link {
+  color: black;
+  text-decoration: none;
+}
+
+.username-available-msg {
+  color: green;
+  padding: 0.3rem 0;
+}
+
+.username-unavailable-msg {
+  color: red;
+  padding: 0.3rem 0;
+}
+
+@media (max-width: 720px) {
+  .signup-form-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 350px) {
+  .signup-form-container {
+    width: 100%;
+  }
+}

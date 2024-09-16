@@ -1,0 +1,51 @@
+.comment-container {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 1rem;
+}
+
+.comment-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.comment-body-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.comment-body-head-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment-post-time {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.replying-to-user {
+  color: #ff3b30;
+}
+
+.comment-body-text {
+  font-size: 1.2rem;
+}
+
+.comment-user-actions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.comment-user-actions-like {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

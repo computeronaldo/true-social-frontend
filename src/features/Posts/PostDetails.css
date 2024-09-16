@@ -1,0 +1,149 @@
+.post-details-main {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1.5fr;
+  font-family: "Nunito", monospace;
+  min-height: 35rem;
+  padding: 0 3rem;
+}
+
+.post-details-container {
+  background-color: white;
+  border-right: 2px solid black;
+  padding: 2rem 1rem;
+}
+
+.post-details-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-details-avatar-container {
+  background-color: #8c8a8a;
+  border-radius: 50%;
+}
+
+.post-details-body {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.post-details-body-head {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.post-details-post-text {
+  font-size: 1.8rem;
+  margin: 1rem 0;
+}
+
+.post-details-post-time {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #7f7a7a;
+}
+.post-details-post-time-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.post-details-loading-message {
+  display: inline-block;
+  position: relative;
+  color: #000;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+.post-details-loading-message::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: loading 2s infinite;
+}
+
+.post-details-error-message {
+  margin: 1rem 0;
+}
+
+.post-details-section-divider {
+  border: 1px solid #7f7a7a;
+}
+
+.post-details-like-count {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.post-details-user-actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 1rem;
+  align-items: center;
+}
+.post-details-user-actions > svg {
+  cursor: pointer;
+}
+
+.post-details-write-comment-section {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  align-items: center;
+}
+
+.post-details-write-comment-form {
+  display: flex;
+  flex-grow: 1;
+  gap: 0.5rem;
+  position: relative;
+}
+.post-details-write-comment-form > input {
+  flex-grow: 1;
+}
+
+.post-comment-btn {
+  background-color: #ff3b30;
+  padding: 0 1rem;
+  border: none;
+  color: white;
+}
+.post-comment-btn-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.post-comment-error {
+  position: absolute;
+  top: 2rem;
+  margin: 0.4rem 0;
+}
+
+.post-comment-posting {
+  top: 2rem;
+  margin: 0.4rem 0;
+  position: absolute;
+}
+
+.post-comments-loading {
+  margin: 1rem 0;
+}
+.post-comments-error {
+  margin: 1rem 0;
+}
+.post-comments-no-comments-message {
+  margin: 1rem 0;
+}
