@@ -7,9 +7,7 @@ export const registerUser = createAsyncThunk(
   "user/registerUser",
   async ({ userInfo }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${BASE_URL}/signup`, userInfo, {
-        withCredentials: true,
-      });
+      const response = await axios.post(`${BASE_URL}/signup`, userInfo);
       return response.data;
     } catch (error) {
       if (!error.response) {
@@ -24,14 +22,10 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ username, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/login`,
-        {
-          username,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${BASE_URL}/login`, {
+        username,
+        password,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -43,14 +37,10 @@ export const setNewPassword = createAsyncThunk(
   "user/setNewPassword",
   async ({ username, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/users/password`,
-        {
-          username,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${BASE_URL}/users/password`, {
+        username,
+        password,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -68,9 +58,7 @@ export const uploadUserPost = createAsyncThunk(
       formData.append("postCategory", postInfo.postCategory);
       formData.append("postMedia", postInfo.postMedia);
 
-      const response = await axios.post(`${BASE_URL}/posts`, formData, {
-        withCredentials: true,
-      });
+      const response = await axios.post(`${BASE_URL}/posts`, formData);
       return response.data;
     } catch (error) {
       if (!error.response) {
