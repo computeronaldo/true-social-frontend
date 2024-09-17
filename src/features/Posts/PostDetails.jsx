@@ -91,19 +91,27 @@ const PostDetails = () => {
   const year = post && postedDate.getFullYear();
 
   const handleLikeBtnClick = () => {
-    dispatch(likeUserPost({ userId: user._id, postId: post._id }));
+    if (user && post) {
+      dispatch(likeUserPost({ userId: user._id, postId: post._id }));
+    }
   };
 
   const handleUnlikeBtnClick = () => {
-    dispatch(unlikeUserPost({ userId: user._id, postId: post._id }));
+    if (user && post) {
+      dispatch(unlikeUserPost({ userId: user._id, postId: post._id }));
+    }
   };
 
   const handleUnbookmarkPost = () => {
-    dispatch(unbookmarkPost({ postId: post._id, userId: user._id }));
+    if (user && post) {
+      dispatch(unbookmarkPost({ postId: post._id, userId: user._id }));
+    }
   };
 
   const handleBookmarkPost = () => {
-    dispatch(bookmarkPost({ postId: post._id, userId: user._id }));
+    if (user && post) {
+      dispatch(bookmarkPost({ postId: post._id, userId: user._id }));
+    }
   };
 
   const handleCommentBtnClick = () => {
