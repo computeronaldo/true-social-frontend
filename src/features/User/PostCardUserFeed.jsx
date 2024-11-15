@@ -16,10 +16,10 @@ const PostCardUserFeed = ({ post }) => {
 
   const { user } = useSelector((state) => state.user);
 
-  const likedPost = post.likedBy.includes(user._id);
+  const likedPost = post && post.likedBy.includes(user._id);
   const bookmarkedPost = user.bookmarkedPosts.includes(post._id);
 
-  const postTime = calculateTimestamp(post.createdAt);
+  const postTime = post && calculateTimestamp(post.createdAt);
 
   const handleBookmarkPost = ({ postId, userId }) => {
     dispatch(bookmarkPost({ postId, userId }));

@@ -1,6 +1,7 @@
 const calculateTimestamp = (timestamp) => {
   const now = new Date();
   const diffInMilliseconds = now - new Date(timestamp);
+  const createdAt = new Date(timestamp);
 
   const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
   const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));

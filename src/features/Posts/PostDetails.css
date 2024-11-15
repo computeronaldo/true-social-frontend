@@ -105,6 +105,10 @@
   align-items: center;
 }
 
+.post-details-post-image {
+  height: 40%;
+}
+
 .post-details-write-comment-form {
   display: flex;
   flex-grow: 1;
