@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { unFollowUser } from "../features/User/userSlice";
 import "./UnfollowModal.css";
 
 const UnfollowModal = ({ modalOpen, closeUnfollowModal }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const unfollowModal = useRef(null);
@@ -12,8 +14,18 @@ const UnfollowModal = ({ modalOpen, closeUnfollowModal }) => {
   const { profile } = useSelector((state) => state.thirdPersonProfile);
 
   const handleUnfollowUser = () => {
-    dispatch(unFollowUser({ toUnFollowUserId: profile._id, userId: user._id }));
+    if (profile && user) {
+      dispatch(
+        unFollowUser({ toUnFollowUserId: profile._id, userId: user._id })
+      );
+    }
   };
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (user && profile && !user.following.includes(profile._id)) {

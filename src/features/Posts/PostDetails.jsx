@@ -72,11 +72,13 @@ const PostDetails = () => {
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(fetchPost({ postId }));
+    if (postId) {
+      dispatch(fetchPost({ postId }));
+    }
   }, [postId]);
 
   useEffect(() => {
-    if (!postedCommentError && postedCommentLoading === "idle") {
+    if (postId && !postedCommentError && postedCommentLoading === "idle") {
       dispatch(fetchPostComments({ postId }));
     }
   }, [postedComment]);
@@ -121,9 +123,11 @@ const PostDetails = () => {
   const handleCommentPosting = (e) => {
     e.preventDefault();
 
-    dispatch(
-      postComment({ userId: user._id, postId: post._id, text: commentInput })
-    );
+    if (user && post && text) {
+      dispatch(
+        postComment({ userId: user._id, postId: post._id, text: commentInput })
+      );
+    }
 
     setCommentInput("");
   };
@@ -135,6 +139,12 @@ const PostDetails = () => {
     user &&
     user.bookmarkedPosts &&
     user.bookmarkedPosts.includes(post._id);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <>
@@ -161,22 +171,30 @@ const PostDetails = () => {
                     <DefaultUserAvatar width="3rem" height="3rem" />
                   </div>
                   <div>
-                    <strong>{post.postedBy.fullname}</strong>
+                    <strong>
+                      {post && post.postedBy && post.postedBy.fullname}
+                    </strong>
                     <NavLink
                       to={
+                        post &&
+                        user &&
+                        post.postedBy &&
                         post.postedBy._id === user._id
                           ? "/profile"
                           : `/profile/${post.postedBy._id}`
                       }
                       className="user-profile-link"
                     >
-                      <p>@{post.postedBy.username}</p>
+                      <p>@{post && post.postedBy && post.postedBy.username}</p>
                     </NavLink>
                   </div>
                 </div>
                 <div className="post-details-post-text">{post.postText}</div>
                 <div className="post-details-post-image">
-                  <img src={post.postImage} alt="Media file not found." />
+                  <img
+                    src={post && post.postImage}
+                    alt="Media file not found."
+                  />
                 </div>
                 <div className="post-details-post-time">
                   {timeString}
@@ -189,7 +207,7 @@ const PostDetails = () => {
                 </div>
                 <hr className="post-details-section-divider" />
                 <span className="post-details-like-count">
-                  {post.likedBy.length} Likes
+                  {post && post.likedBy && post.likedBy.length} Likes
                 </span>
                 <hr />
                 <div className="post-details-user-actions">

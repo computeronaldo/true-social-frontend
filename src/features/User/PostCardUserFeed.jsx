@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, NavLink } from "react-router-dom";
 import { bookmarkPost, unbookmarkPost } from "../../features/User/userSlice";
 import { likePost, unlikePost } from "./userSlice";
+import { useEffect } from "react";
 
 const PostCardUserFeed = ({ post }) => {
   const navigate = useNavigate();
@@ -16,21 +17,34 @@ const PostCardUserFeed = ({ post }) => {
 
   const { user } = useSelector((state) => state.user);
 
-  const likedPost = post && post.likedBy.includes(user._id);
-  const bookmarkedPost = user.bookmarkedPosts.includes(post._id);
+  const likedPost = post && post.likedBy && post.likedBy.includes(user._id);
+  const bookmarkedPost =
+    user && user.bookmarkedPosts && user.bookmarkedPosts.includes(post._id);
 
   const postTime = post && calculateTimestamp(post.createdAt);
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
+
   const handleBookmarkPost = ({ postId, userId }) => {
-    dispatch(bookmarkPost({ postId, userId }));
+    if (post && user) {
+      dispatch(bookmarkPost({ postId, userId }));
+    }
   };
 
   const handleUnbookmarkPost = ({ postId, userId }) => {
-    dispatch(unbookmarkPost({ postId, userId }));
+    if (user && post) {
+      dispatch(unbookmarkPost({ postId, userId }));
+    }
   };
 
   const handleCommentBtnClick = () => {
-    navigate(`/post/${post._id}`);
+    if (post) {
+      navigate(`/post/${post._id}`);
+    }
   };
 
   return (
@@ -45,17 +59,22 @@ const PostCardUserFeed = ({ post }) => {
           <div className="post-card-user-feed-body-head">
             <div className="post-card-user-feed-body-head-inner">
               <p>
-                <strong>{post.postedBy.fullname}</strong>
+                <strong>
+                  {post && post.postedBy && post.postedBy.fullname}
+                </strong>
               </p>
               <NavLink
                 to={
+                  post &&
+                  user &&
+                  post.postedBy &&
                   post.postedBy._id === user._id
                     ? "/profile"
                     : `/profile/${post.postedBy._id}`
                 }
                 className="user-profile-link"
               >
-                <p>@{post.postedBy.username}</p>
+                <p>@{post && post.postedBy && post.postedBy.username}</p>
               </NavLink>
             </div>
             <div className="post-time">
@@ -64,9 +83,9 @@ const PostCardUserFeed = ({ post }) => {
             </div>
           </div>
           <div className="post-card-user-feed-body-body post-text">
-            <p>{post.postText}</p>
+            <p>{post && post.postText}</p>
           </div>
-          {post.postImage && (
+          {post && post.postImage && (
             <div className="post-card-user-feed-body-img post-image">
               <img
                 src={post.postImage}
@@ -93,7 +112,7 @@ const PostCardUserFeed = ({ post }) => {
                   size={20}
                 />
               )}
-              {post.likedBy.length}
+              {post && post.likedBy && post.likedBy.length}
             </div>
             <FaRegCommentAlt size={20} onClick={handleCommentBtnClick} />
             <IoShareSocialOutline size={20} />

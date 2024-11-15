@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Explore.css";
 import { useEffect, useState } from "react";
 import PostCardExplore from "./PostCardExplore";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   "General",
@@ -34,13 +35,21 @@ const categories = [
 ];
 
 const Explore = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { postsInfo } = useSelector((state) => state.posts);
   const { post } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   useEffect(() => {
     dispatch(getPosts({ pageNumber }));
@@ -115,8 +124,10 @@ const Explore = () => {
                 </button>
               </div>
             )}
-            {posts.length > 0 &&
+            {posts &&
+              posts.length > 0 &&
               posts.map((post) => {
+                console.log(post._id, post.postText);
                 return <PostCardExplore key={post._id} post={post} />;
               })}
           </div>

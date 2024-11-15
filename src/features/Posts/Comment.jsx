@@ -20,11 +20,15 @@ const Comment = ({ comment, post }) => {
   const userLikedComment = user && comment.likedBy.includes(user._id);
 
   const handleLikeComment = () => {
-    dispatch(likeComment({ commentId: comment._id, userId: user._id }));
+    if (user && comment) {
+      dispatch(likeComment({ commentId: comment._id, userId: user._id }));
+    }
   };
 
   const handleUnlikeComment = () => {
-    dispatch(unlikeComment({ commentId: comment._id, userId: user._id }));
+    if (user && comment) {
+      dispatch(unlikeComment({ commentId: comment._id, userId: user._id }));
+    }
   };
 
   return (
@@ -35,17 +39,27 @@ const Comment = ({ comment, post }) => {
           <div className="comment-body-head">
             <div className="comment-body-head-inner">
               <div>
-                <strong>{comment.commentBy.fullname}</strong>
+                <strong>
+                  {comment && comment.commentBy && comment.commentBy.fullname}
+                </strong>
                 {"   "}
                 <NavLink
                   to={
+                    comment &&
+                    comment.commentBy &&
+                    user &&
                     comment.commentBy._id === user._id
                       ? "/profile"
-                      : `/profile/${comment.commentBy._id}`
+                      : `/profile/${
+                          comment && comment.commentBy && comment.commentBy._id
+                        }`
                   }
                   className="user-profile-link"
                 >
-                  <span>@{comment.commentBy.username}</span>
+                  <span>
+                    @
+                    {comment && comment.commentBy && comment.commentBy.username}
+                  </span>
                 </NavLink>
               </div>
               <span className="comment-post-time">
@@ -58,9 +72,12 @@ const Comment = ({ comment, post }) => {
               <strong className="replying-to-user">
                 <NavLink
                   to={
+                    post &&
+                    post.postedBy &&
+                    user &&
                     post.postedBy._id === user._id
                       ? "/profile"
-                      : `/profile/${post.postedBy._id}`
+                      : `/profile/${post && post.postedBy && post.postedBy._id}`
                   }
                   className="user-profile-link"
                 >
@@ -69,7 +86,7 @@ const Comment = ({ comment, post }) => {
               </strong>
             </div>
           </div>
-          <div className="comment-body-text">{comment.text}</div>
+          <div className="comment-body-text">{comment && comment.text}</div>
           <div className="comment-user-actions-container">
             <div className="comment-user-actions-like">
               {userLikedComment ? (
@@ -77,7 +94,9 @@ const Comment = ({ comment, post }) => {
               ) : (
                 <FaRegHeart onClick={() => handleLikeComment()} />
               )}{" "}
-              <span>{comment.likedBy.length}</span>
+              <span>
+                {comment && comment.likedBy && comment.likedBy.length}
+              </span>
             </div>
             <IoShareSocialOutline />
           </div>

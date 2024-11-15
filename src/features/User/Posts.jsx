@@ -3,11 +3,20 @@ import { useSelector } from "react-redux";
 import PostCard from "./PostCard";
 
 import "./Posts.css";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Posts = () => {
-  const { posts, postsLoading, postsError } = useSelector(
+  const navigate = useNavigate();
+  const { posts, postsLoading, postsError, user } = useSelector(
     (state) => state.user
   );
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <>

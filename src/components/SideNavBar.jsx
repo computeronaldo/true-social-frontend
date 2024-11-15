@@ -8,10 +8,18 @@ import { FaBookmark } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 
 import "./SideNavBar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const SideNavBar = ({ highlight, openModalHandler }) => {
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <>

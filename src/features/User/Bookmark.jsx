@@ -9,11 +9,13 @@ import CreatePostModal from "../../components/CreatePostModal";
 
 import "./Bookmark.css";
 import PostCardBookmark from "./PostCardBookmark";
+import { useNavigate } from "react-router-dom";
 
 const Bookmark = () => {
   const [openPostModal, setOpenPostModal] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user, bookmarkedPosts } = useSelector((state) => state.user);
 
@@ -22,7 +24,11 @@ const Bookmark = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchBookmarkedPosts({ userId: user._id }));
+    if (user) {
+      dispatch(fetchBookmarkedPosts({ userId: user._id }));
+    } else {
+      navigate("/login");
+    }
   }, [user]);
 
   return (

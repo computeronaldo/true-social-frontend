@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { resetPostModal, uploadUserPost } from "../features/User/userSlice";
 
@@ -9,6 +10,7 @@ import { FaWindowClose } from "react-icons/fa";
 import "./CreatePostModal.css";
 
 const CreatePostModal = ({ openModal, closeCreatePostModalHandler }) => {
+  const navigate = useNavigate();
   const newPostModalRef = useRef(null);
   const imageInputRef = useRef(null);
 
@@ -38,6 +40,12 @@ const CreatePostModal = ({ openModal, closeCreatePostModalHandler }) => {
       setPostTextCharacterLimit(false);
     }
   }, [postText]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   useEffect(() => {
     const reader = new FileReader();
@@ -110,14 +118,16 @@ const CreatePostModal = ({ openModal, closeCreatePostModalHandler }) => {
   const newPostSubmitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(
-      uploadUserPost({
-        postedBy: user["_id"],
-        postText,
-        postMedia,
-        postCategory,
-      })
-    );
+    if (user) {
+      dispatch(
+        uploadUserPost({
+          postedBy: user["_id"],
+          postText,
+          postMedia,
+          postCategory,
+        })
+      );
+    }
 
     if (imageInputRef.current) {
       imageInputRef.current.value = "";

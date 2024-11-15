@@ -10,6 +10,7 @@ import {
 } from "./userSlice";
 
 import "./EditProfileModal.css";
+import { useNavigate } from "react-router-dom";
 
 const EditProfileModal = ({
   openEditProfileModal,
@@ -19,6 +20,7 @@ const EditProfileModal = ({
   const editProfileModal = useRef(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user, editUserProfileMessage, editUserProfileError } = useSelector(
     (state) => state.user
@@ -28,8 +30,16 @@ const EditProfileModal = ({
   const [websiteLinkInput, setWebsiteLinkInput] = useState("");
 
   useEffect(() => {
-    setBioInput(user.bio);
-    setWebsiteLinkInput(user.websiteLink);
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setBioInput(user.bio);
+      setWebsiteLinkInput(user.websiteLink);
+    }
   }, [openEditProfileModal]);
 
   useEffect(() => {
@@ -52,27 +62,29 @@ const EditProfileModal = ({
 
     dispatch(setProfileUpdationField(field));
 
-    const data = (function IIFE() {
-      if (field === "") {
-        return {
-          userId: user._id,
-          bio: bioInput,
-          websiteLink: websiteLinkInput,
-        };
-      } else if (field === "bio") {
-        return {
-          userId: user._id,
-          bio: bioInput,
-        };
-      } else if (field === "websiteLink") {
-        return {
-          userId: user._id,
-          websiteLink: websiteLinkInput,
-        };
-      }
-    })();
+    if (user) {
+      const data = (function IIFE() {
+        if (field === "") {
+          return {
+            userId: user._id,
+            bio: bioInput,
+            websiteLink: websiteLinkInput,
+          };
+        } else if (field === "bio") {
+          return {
+            userId: user._id,
+            bio: bioInput,
+          };
+        } else if (field === "websiteLink") {
+          return {
+            userId: user._id,
+            websiteLink: websiteLinkInput,
+          };
+        }
+      })();
 
-    dispatch(editUserProfile(data));
+      dispatch(editUserProfile(data));
+    }
 
     setBioInput("");
     setWebsiteLinkInput("");

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile, fetchUserPosts } from "./thirdPersonProfileSlice";
 import { followUser } from "../User/userSlice";
@@ -15,6 +15,7 @@ import "./ThirdPersonProfile.css";
 
 const ThirdPersonProfile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { profileId } = useParams();
 
@@ -32,15 +33,27 @@ const ThirdPersonProfile = () => {
   const [openUnFollowModal, setOpenUnFollowModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUserProfile({ profileId }));
+    if (profileId) {
+      dispatch(fetchUserProfile({ profileId }));
+    }
   }, [profileId]);
 
   useEffect(() => {
-    dispatch(fetchUserPosts({ profileId }));
+    if (profileId) {
+      dispatch(fetchUserPosts({ profileId }));
+    }
   }, [profile]);
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
+
   const handleFollowUserBtnClick = () => {
-    dispatch(followUser({ toFollowUserId: profile._id, userId: user._id }));
+    if (user && profile) {
+      dispatch(followUser({ toFollowUserId: profile._id, userId: user._id }));
+    }
   };
 
   const handleFollowingUserBtnClick = () => {
@@ -52,7 +65,7 @@ const ThirdPersonProfile = () => {
   };
 
   const followsThirdPerson =
-    user && profile && user.following.includes(profile._id);
+    user && profile && user.following && user.following.includes(profile._id);
 
   return (
     <>
@@ -103,7 +116,9 @@ const ThirdPersonProfile = () => {
               {!profile.websiteLink && <h4>No website link found!</h4>}
               <div className="third-person-profile-stats">
                 <div className="third-perons-profile-stat-item">
-                  <strong>{profile.followers.length}</strong>
+                  <strong>
+                    {profile.followers && profile.followers.length}
+                  </strong>
                   <strong>Followers</strong>
                 </div>
                 <div className="third-perons-profile-stat-item">
@@ -111,7 +126,9 @@ const ThirdPersonProfile = () => {
                   <strong>Posts</strong>
                 </div>
                 <div className="third-perons-profile-stat-item">
-                  <strong>{profile.following.length}</strong>
+                  <strong>
+                    {profile.following && profile.following.length}
+                  </strong>
                   <strong>Following</strong>
                 </div>
               </div>

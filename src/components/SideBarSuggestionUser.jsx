@@ -1,24 +1,36 @@
 import DefaultUserAvatar from "./DefaultUserAvatar";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { followUser, unFollowUser } from "../features/User/userSlice";
 
 import "./SideBarSuggestionUser.css";
+import { useEffect } from "react";
 
 const SideBarSuggestionUser = ({ userToFollow }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
-  const userId = user._id;
+  const userId = user && user._id;
 
   const handleFollowUserBtnClick = (toFollowUserId) => {
-    dispatch(followUser({ toFollowUserId, userId }));
+    if (userId && toFollowUserId) {
+      dispatch(followUser({ toFollowUserId, userId }));
+    }
   };
 
   const handleUnfollowBtnClick = (toUnFollowUserId) => {
-    dispatch(unFollowUser({ toUnFollowUserId, userId }));
+    if (userId && toUnFollowUserId) {
+      dispatch(unFollowUser({ toUnFollowUserId, userId }));
+    }
   };
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <div className="user-follow-suggestions-item" key={userToFollow._id}>
@@ -27,17 +39,17 @@ const SideBarSuggestionUser = ({ userToFollow }) => {
       </div>
       <div className="user-follow-suggestions-body">
         <span>
-          <p>{userToFollow.fullname}</p>
+          <p>{userToFollow && userToFollow.fullname}</p>
           <p>
             <NavLink
               to={`/profile/${userToFollow._id}`}
               className="user-profile-link"
             >
-              <strong>@{userToFollow.username}</strong>
+              <strong>@{userToFollow && userToFollow.username}</strong>
             </NavLink>
           </p>
         </span>
-        {user.following.includes(userToFollow._id) ? (
+        {user && user.following && user.following.includes(userToFollow._id) ? (
           <button
             onClick={() => handleUnfollowBtnClick(userToFollow._id)}
             className="user-follow-suggestions-follow-btn"

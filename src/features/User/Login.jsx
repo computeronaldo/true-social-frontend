@@ -24,8 +24,6 @@ const Login = () => {
     setPassword("");
   };
 
-  console.log(user);
-
   return (
     <main className="login-main">
       <h1>

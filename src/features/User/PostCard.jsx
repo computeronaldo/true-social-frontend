@@ -16,7 +16,7 @@ import { IoOptionsOutline, IoShareSocialOutline } from "react-icons/io5";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 import "./PostCard.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import EditPostModal from "../../components/EditPostModal";
 
@@ -30,9 +30,15 @@ const PostCard = ({ post }) => {
   const [postOptions, setPostOptions] = useState(false);
   const [openEditPostModal, setOpenEditPostModal] = useState(false);
 
-  const postTimestamp = calculateTimestamp(post.createdAt);
+  const postTimestamp = post && calculateTimestamp(post.createdAt);
 
-  const userLikedPost = post.likedBy.includes(user._id);
+  const userLikedPost = post && post.likedBy && post.likedBy.includes(user._id);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   const handleUserPostOptionsToogle = () => {
     setPostOptions((prev) => !prev);
@@ -48,21 +54,29 @@ const PostCard = ({ post }) => {
   };
 
   const handleDeletePostBtnClick = () => {
-    dispatch(setDeletionPostId({ postId: post._id }));
-    dispatch(deleteUserPost({ userId: user._id, postId: post._id }));
+    if (user && post) {
+      dispatch(setDeletionPostId({ postId: post._id }));
+      dispatch(deleteUserPost({ userId: user._id, postId: post._id }));
+    }
     setPostOptions(false);
   };
 
   const handlePostLike = () => {
-    dispatch(likePost({ postId: post._id, userId: user._id }));
+    if (post && user) {
+      dispatch(likePost({ postId: post._id, userId: user._id }));
+    }
   };
 
   const handlePostUnlike = () => {
-    dispatch(unlikePost({ postId: post._id, userId: user._id }));
+    if (post && user) {
+      dispatch(unlikePost({ postId: post._id, userId: user._id }));
+    }
   };
 
   const handleCommentBtnClick = () => {
-    navigate(`/post/${post._id}`);
+    if (post) {
+      navigate(`/post/${post._id}`);
+    }
   };
 
   return (
@@ -85,10 +99,10 @@ const PostCard = ({ post }) => {
             <div className="post-user-info">
               <div className="post-user-info-names">
                 <p>
-                  <strong>{user.fullname}</strong>
+                  <strong>{user && user.fullname}</strong>
                 </p>
                 <NavLink to="/profile" className="user-profile-link">
-                  <p>@{user.username}</p>
+                  <p>@{user && user.username}</p>
                 </NavLink>
               </div>
               <span className="post-user-timestamp">
@@ -97,8 +111,8 @@ const PostCard = ({ post }) => {
               </span>
             </div>
             <div className="post-text">
-              <p>{post.postText}</p>
-              {post.postImage && (
+              <p>{post && post.postText}</p>
+              {post && post.postImage && (
                 <div className="post-image">
                   <img
                     className={post.postImage ? "post-image-boundary" : ""}
@@ -119,7 +133,7 @@ const PostCard = ({ post }) => {
                 ) : (
                   <FaRegHeart size={20} onClick={handlePostLike} />
                 )}
-                {post.likedBy.length}
+                {post && post.likedBy && post.likedBy.length}
               </span>
               <FaRegCommentAlt size={20} onClick={handleCommentBtnClick} />
               <IoShareSocialOutline size={20} />
@@ -138,10 +152,12 @@ const PostCard = ({ post }) => {
                 )}
               </div>
             </div>
-            {post._id === deletionPostId && deletePostLoading === "loading" && (
-              <h3 className="loading-text">Deleting...</h3>
-            )}
-            {post._id === deletionPostId && deletePostError && (
+            {post &&
+              post._id === deletionPostId &&
+              deletePostLoading === "loading" && (
+                <h3 className="loading-text">Deleting...</h3>
+              )}
+            {post && post._id === deletionPostId && deletePostError && (
               <h3>{deletePostError}</h3>
             )}
           </div>

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { FaWindowClose } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { editUserPost, resetEditPostModal } from "../features/User/userSlice";
 import "./EditPostModal.css";
 
 const EditPostModal = ({ post, openEditPostModal, closeEditPostModal }) => {
+  const navigate = useNavigate();
   const editPostRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -14,6 +16,12 @@ const EditPostModal = ({ post, openEditPostModal, closeEditPostModal }) => {
   );
 
   const [postText, setPostText] = useState(post.postText);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (openEditPostModal) {
@@ -38,13 +46,16 @@ const EditPostModal = ({ post, openEditPostModal, closeEditPostModal }) => {
   const handleEditPostSubmission = (e) => {
     e.preventDefault();
 
-    const postData = {
-      userId: user._id,
-      postId: post._id,
-      postText: postText,
-    };
+    if (user) {
+      const postData = {
+        userId: user._id,
+        postId: post._id,
+        postText: postText,
+      };
 
-    dispatch(editUserPost(postData));
+      dispatch(editUserPost(postData));
+    }
+
     setPostText("");
   };
 

@@ -10,9 +10,11 @@ import CreatePostModal from "../../components/CreatePostModal";
 import PostCardUserFeed from "./PostCardUserFeed";
 
 import "./Home.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user, userFeed, userFeedLoading, userFeedError } = useSelector(
     (state) => state.user
@@ -25,8 +27,16 @@ const Home = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchUserFeed({ userId: user._id }));
-    dispatch(fetchUserFollowSuggestions({ userId: user._id }));
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUserFeed({ userId: user._id }));
+      dispatch(fetchUserFollowSuggestions({ userId: user._id }));
+    }
   }, []);
 
   return (

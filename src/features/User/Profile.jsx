@@ -26,7 +26,11 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchUserPosts({ userId: user._id }));
+    if (user) {
+      dispatch(fetchUserPosts({ userId: user._id }));
+    } else {
+      navigate("/login");
+    }
   }, [post]);
 
   useEffect(() => {
